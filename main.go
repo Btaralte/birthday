@@ -5,6 +5,7 @@ import (
 	"birthdayreminder/config"
 	"birthdayreminder/worker"
 	"log"
+	"time"
 
 	"github.com/robfig/cron/v3"
 )
@@ -18,12 +19,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// istLoc, _ := time.LoadLocation("Asia/Kolkata") // IST timezone
-	// c := cron.New(cron.WithLocation(istLoc))             // Scheduler uses IST
-	//_, err = c.AddFunc("0 9 * * *", worker.RunDailyTask) // At 9:00 AM IST
+	istLoc, _ := time.LoadLocation("Asia/Kolkata")       // IST timezone
+	c := cron.New(cron.WithLocation(istLoc))             // Scheduler uses IST
+	_, err = c.AddFunc("0 9 * * *", worker.RunDailyTask) // At 9:00 AM IST
 
-	c := cron.New(cron.WithSeconds())
-	_, err = c.AddFunc("*/5 * * * * *", worker.RunDailyTask) // At 9:00 AM IST
+	// c := cron.New(cron.WithSeconds())
+	// _, err = c.AddFunc("*/5 * * * * *", worker.RunDailyTask) // At 9:00 AM IST
 	if err != nil {
 		log.Fatal("Error scheduling the daily task:", err)
 	}
